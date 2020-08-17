@@ -1,0 +1,1 @@
+Repositório da RD com os arquivos criados para as réguas do SFMC.
