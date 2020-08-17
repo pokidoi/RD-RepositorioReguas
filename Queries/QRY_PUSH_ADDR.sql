@@ -1,0 +1,37 @@
+SELECT 
+ _ContactID as ContactID
+,_DeviceID as DeviceID
+,_APID as APID
+,_Status as Status
+,_Source as Source
+,_SourceObjectId as SourceObjectId
+,_Platform as Platform
+,_PlatformVersion as PlatformVersion
+,_Alias as  Alias
+,_OptOutStatusID as  OptOutStatus
+,_OptOutMethodID as  OptOutMethod
+,_OptOutDate as   OptOutDate
+,_OptInStatusID as  OptInStatus
+,_OptInMethodID as  OptInMethod
+,_OptInDate as  OptInDate
+,_Channel as  Channel
+,_CreatedDate as  CreatedDate
+,_CreatedBy as  CreatedBy
+,_ModifiedDate as  ModifiedDate
+,_ModifiedBy as  ModifiedBy
+,_City as  City
+,_State as  State
+,_ZipCode as  ZipCode
+,_FirstName as  FirstName
+,_LastName as  LastName
+,_UTCOffset as  UTCOffset
+,_IsHonorDST as  IsHonorDST
+,_SystemToken as SystemToken
+,_ProviderToken as ProviderTok
+,_Badge as Badge
+,_LocationEnabled as LocationEnabled
+,_TimeZone as TimeZone
+,_Device as Device
+,_HardwareId as HardwareId
+,_DeviceType as DeviceType
+FROM _PushAddress

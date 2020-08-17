@@ -1,0 +1,63 @@
+%%[
+    set @telencoded = QUERYPARAMETER('e')
+    set @TEL_CELULAR = Base64Decode(@telencoded)
+    set @RowPrimeira = LookupOrderedRows("DE_ALL_CRONICOS_RAIA",0,"DT_HR_VENDA Desc","TEL_CELULAR", @TEL_CELULAR , "DT_PRIMEIRO_LEMBRETE", Format(Now(), "MM/dd/yyyy"))
+    set @RowSegunda = LookupOrderedRows("DE_ALL_CRONICOS_RAIA",0,"DT_HR_VENDA Desc","TEL_CELULAR", @TEL_CELULAR , "DT_SEGUNDO_LEMBRETE", Format(Now(), "MM/dd/yyyy"))
+    set @RowResgate = LookupOrderedRows("DE_ALL_CRONICOS_RAIA",0,"DT_HR_VENDA Desc","TEL_CELULAR", @TEL_CELULAR , "DATA_RESGATE", Format(Now(), "MM/dd/yyyy"))
+    IF RowCount(@RowPrimeira) >= 1 THEN
+        FOR @i = 1 TO RowCount(@RowPrimeira) DO
+            set @linha_primeiro = Row(@RowPrimeira, @i)
+            set @DESC_PROD_DETALHADA = Field(@linha_primeiro, 'DESC_PROD_DETALHADA')
+            set @DESC_CLASSIF_PRODUTO = Field(@linha_primeiro, 'DESC_CLASSIF_PRODUTO')
+            set @CD_PRODUTO = Field(@linha_primeiro, 'CD_PRODUTO')
+            set @MS = Field(@linha_primeiro, 'MS')
+            set @DT_HR_VENDA = Field(@linha_primeiro, 'DT_HR_VENDA')
+            set @URL_PRODUTO = Field(@linha_primeiro, 'URL_PRODUTO')
+            if not empty(@URL_PRODUTO) THEN
+                set @URL_PRODUTO = CONCAT(@URL_PRODUTO, '?utm_source=crm_reguas&utm_medium=sms&utm_campaign=DR_REL_CRONICOS&utm_content=DR_REL_CRONICOS_LEMBRETE1')
+            endif
+        NEXT @i
+    ELSEIF RowCount(@RowSegunda) >= 1 THEN
+        FOR @j = 1 TO RowCount(@RowSegunda) DO
+            set @linha_segundo = Row(@RowSegunda, @j)
+            set @DESC_PROD_DETALHADA = Field(@linha_segundo, 'DESC_PROD_DETALHADA')
+            set @DESC_CLASSIF_PRODUTO = Field(@linha_segundo, 'DESC_CLASSIF_PRODUTO')
+            set @CD_PRODUTO = Field(@linha_segundo, 'CD_PRODUTO')
+            set @MS = Field(@linha_segundo, 'MS')
+            set @DT_HR_VENDA = Field(@linha_segundo, 'DT_HR_VENDA')
+            set @URL_PRODUTO = Field(@linha_segundo, 'URL_PRODUTO')
+            if not empty(@URL_PRODUTO) THEN
+                set @URL_PRODUTO = CONCAT(@URL_PRODUTO, '?utm_source=crm_reguas&utm_medium=sms&utm_campaign=DR_REL_CRONICOS&utm_content=DR_REL_CRONICOS_LEMBRETE2')
+            endif
+        NEXT @j
+    ELSEIF RowCount(@RowResgate) >= 1 THEN
+        FOR @k = 1 TO RowCount(@RowResgate) DO
+            set @linha_resgate = Row(@RowResgate, @k)
+            set @DESC_PROD_DETALHADA = Field(@linha_resgate, 'DESC_PROD_DETALHADA')
+            set @DESC_CLASSIF_PRODUTO = Field(@linha_resgate, 'DESC_CLASSIF_PRODUTO')
+            set @CD_PRODUTO = Field(@linha_resgate, 'CD_PRODUTO')
+            set @MS = Field(@linha_resgate, 'MS')
+            set @DT_HR_VENDA = Field(@linha_resgate, 'DT_HR_VENDA')
+            set @URL_PRODUTO = Field(@linha_resgate, 'URL_PRODUTO')
+            if not empty(@URL_PRODUTO) THEN
+                set @URL_PRODUTO = CONCAT(@URL_PRODUTO, '?utm_source=crm_reguas&utm_medium=sms&utm_campaign=DR_REL_CRONICOS&utm_content=DR_REL_CRONICOS_RESGATE')
+            endif
+        NEXT @k
+    ENDIF
+ ]%%
+
+    
+
+    
+
+
+
+%%[IF @DESC_CLASSIF_PRODUTO == 'GENERICO' THEN]%%
+
+ %%=ContentBlockbyID("269")=%%
+
+%%[ELSE]%%
+
+ %%=ContentBlockbyID("268")=%%
+
+%%[ENDIF]%%

@@ -1,0 +1,14 @@
+%%[ 
+    var @DT_INICIO, @DT_FIM, @EMAIL, @VALOR_NOTA, @URL_SITE, @NOME
+    set @DT_INICIO = Now()
+    set @DT_FIM = DateAdd(Now(), 7, "D")
+    set @EMAIL = emailaddr
+    set @VALOR_NOTA = Lookup('DE_ALL_NOVOS_POTENCIAIS_RAIA', 'VALOR_TOTAL_NF', 'EMAIL', @EMAIL)
+    set @URL_SITE = 'https://www.drogaraia.com.br/'
+    set @URL = Concat(@URL_SITE, '?utm_source=crm_reguas&utm_medium=email&utm_campaign=DR_ENG_NOVOSPOTENCIAIS&utm_content=DR_ENG_NOVOSPOTENCIAIS_VOUCHER')
+    set @NOME = Propercase(Trim(NOME))
+    
+]%%
+
+
+apiservices.krxd.net/click_tracker/track?kxconfid=uv9vgbzin&kxadvertiserid=%%memberid%%&kxcampaignid=%%=URLEncode(emailname_)=%%&kxbrand=DrogaRaia&clk=%%=v(@URL)=%%

@@ -1,0 +1,17 @@
+SELECT
+    X.ID_CLIENTE
+    ,X.DATA_HORA_VENDA AS DT_ULTIMA_COMPRA
+    ,X.VALOR_TOTAL_NF
+    ,X.ID_NF
+FROM (
+    SELECT
+        CMR.ID_CLIENTE
+        ,NTH.DATA_HORA_VENDA
+        ,NTH.VALOR_TOTAL_NF
+        ,NTH.ID_NF
+        ,row_number() over(partition by CMR.ID_CLIENTE order by NTH.DATA_HORA_VENDA desc) as RowNumber
+        FROM DE_ALL_EX_FIEL_RAIA CMR
+        INNER JOIN DE_NOTA_HEADER_RAIA NTH
+        ON CMR.ID_CLIENTE = NTH.ID_CLIENTE
+)X
+WHERE RowNumber = 1

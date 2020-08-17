@@ -1,0 +1,59 @@
+%%[
+    VAR @produtos, @index, @i, @CD_PRODUTO1, @CD_PRODUTO2, @CD_PRODUTO3, @CD_PRODUTO4, @index 
+    SET @produtos = CD_PRODUTO
+    SET @vetor_produtos = @produtos
+
+    FOR @i = 1 TO 4 DO 
+        SET @index = IndexOf(@produtos, ',') 
+        IF @i == 1 THEN  
+            SET @CD_PRODUTO1 = Substring(@produtos, 0, Subtract(@index, 1))
+            SET @produtos = Substring(@produtos, Add(@index, 1), Length(@produtos))
+        ELSEIF @i == 2 THEN  
+            SET @CD_PRODUTO2 = Substring(@produtos, 0, Subtract(@index, 1))
+            SET @produtos = Substring(@produtos, Add(@index, 1), Length(@produtos))
+        ELSEIF @i == 3 THEN 
+            IF @index > 0 THEN
+                SET @CD_PRODUTO3 = Substring(@produtos, 0, Subtract(@index, 1))
+                SET @produtos = Substring(@produtos, Add(@index, 1), Length(@produtos))
+            ELSE
+                SET @CD_PRODUTO3 = @produtos
+                SET @produtos = ""
+            ENDIF
+        ELSEIF @i == 4 THEN 
+            IF Length(@produtos) > 0 THEN
+                SET @CD_PRODUTO4 = @produtos
+                SET @produtos = ""
+            ELSE
+                SET @CD_PRODUTO4 = 0
+            ENDIF
+        ENDIF     
+    NEXT @i
+    
+    /*Variáveis para bloco dinamizado do produto 1*/
+    set @img_produto1 = Lookup('DE_PRODUTOS_RAIA', 'IMG_PEQUENA', 'CD_PRODUTO', @CD_PRODUTO1)
+    set @url_produto1 = Lookup('DE_PRODUTOS_RAIA', 'URL_PRODUTO', 'CD_PRODUTO', @CD_PRODUTO1)
+    set @url_produto1 = Concat(@url_produto1, '?utm_source=crm_reguas&utm_medium=email&utm_campaign=DR_RET_PROPENSOCHURN&utm_content=DR_RET_PROPENSOCHURN_KILLER')
+    set @desc_produto1 = Lookup('ENT.DE_CAD_PRODUTO', 'DESC_PRODUTO', 'CD_PRODUTO', @CD_PRODUTO1)
+    set @nr_promocional1 = Lookup('DE_DH_TARGETING_PROPENSOS_CHURN_RAIA', 'NR_PROMOCIONAL', 'CD_PRODUTO', @CD_PRODUTO1)
+    /*Produto 2*/
+    set @img_produto2 = Lookup('DE_PRODUTOS_RAIA', 'IMG_PEQUENA', 'CD_PRODUTO', @CD_PRODUTO2)
+    set @url_produto2 = Lookup('DE_PRODUTOS_RAIA', 'URL_PRODUTO', 'CD_PRODUTO', @CD_PRODUTO2)
+    set @url_produto2 = Concat(@url_produto2, '?utm_source=crm_reguas&utm_medium=email&utm_campaign=DR_RET_PROPENSOCHURN&utm_content=DR_RET_PROPENSOCHURN_KILLER')
+    set @desc_produto2 = Lookup('ENT.DE_CAD_PRODUTO', 'DESC_PRODUTO', 'CD_PRODUTO', @CD_PRODUTO2)
+    set @nr_promocional2 = Lookup('DE_DH_TARGETING_PROPENSOS_CHURN_RAIA', 'NR_PROMOCIONAL', 'CD_PRODUTO', @CD_PRODUTO2)
+    /*Produto 3*/
+    set @img_produto3 = Lookup('DE_PRODUTOS_RAIA', 'IMG_PEQUENA', 'CD_PRODUTO', @CD_PRODUTO3)
+    set @url_produto3 = Lookup('DE_PRODUTOS_RAIA', 'URL_PRODUTO', 'CD_PRODUTO', @CD_PRODUTO3)
+    set @url_produto3 = Concat(@url_produto3, '?utm_source=crm_reguas&utm_medium=email&utm_campaign=DR_RET_PROPENSOCHURN&utm_content=DR_RET_PROPENSOCHURN_KILLER')
+    set @desc_produto3 = Lookup('ENT.DE_CAD_PRODUTO', 'DESC_PRODUTO', 'CD_PRODUTO', @CD_PRODUTO3)
+    set @nr_promocional3 = Lookup('DE_DH_TARGETING_PROPENSOS_CHURN_RAIA', 'NR_PROMOCIONAL', 'CD_PRODUTO', @CD_PRODUTO3) 
+    /*Produto 4*/
+    set @img_produto4 = Lookup('DE_PRODUTOS_RAIA', 'IMG_PEQUENA', 'CD_PRODUTO', @CD_PRODUTO4)
+    set @url_produto4 = Lookup('DE_PRODUTOS_RAIA', 'URL_PRODUTO', 'CD_PRODUTO', @CD_PRODUTO4)
+    set @url_produto4 = Concat(@url_produto4, '?utm_source=crm_reguas&utm_medium=email&utm_campaign=DR_RET_PROPENSOCHURN&utm_content=DR_RET_PROPENSOCHURN_KILLER')
+    set @desc_produto4 = Lookup('ENT.DE_CAD_PRODUTO', 'DESC_PRODUTO', 'CD_PRODUTO', @CD_PRODUTO4)
+    set @nr_promocional4 = Lookup('DE_DH_TARGETING_PROPENSOS_CHURN_RAIA', 'NR_PROMOCIONAL', 'CD_PRODUTO', @CD_PRODUTO4)
+
+set @DT_FIM = DateAdd(Now(), '24','D')
+]%%
+

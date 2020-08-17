@@ -1,0 +1,19 @@
+%%[
+set @rbAPIKey = "94dbe4604bc14735b26394029cfd0dc5"
+
+var @shortUrl, @rebrandlyUrl, @link
+
+set @url = URLEncode("https://google.com")
+
+set @rbAPIHost = "api.rebrandly.com"
+set @rbAPIEndpoint = Concat("https://", @rbAPIHost, "/v1/links/new")
+set @rbAPIParameters = Concat("apikey=", @rbAPIKey, "&destination=", @url)
+set @rbAPICall = Concat(@rbAPIEndpoint, "?", @rbAPIParameters)
+set @rbResponseJSON = HTTPGet(@rbAPICall)
+]%%
+
+<script type="text/javascript" runat=server>
+    var rbResponse = eval("(" + Variable.GetValue("@rbResponseJSON") + ")");
+    var shortUrl = 'https://' + rbResponse.shortUrl
+</script>
+

@@ -1,0 +1,46 @@
+%%[
+var @de, @url_encurtada, @cd_produto, @dt_now, @data_primeiro, @data_segundo, @data_resgate, @utm1, @utm2, @utm3, @bitlyUrl, @urlProduto, @urlUtm, @url
+set @cd_produto = CD_PRODUTO
+set @de = 'DE_PRODUTOS_RAIA_CRONICOS'
+set @bitlyUrl = 'https://api-ssl.bitly.com/v3/shorten?access_token=f7fbe700a17ba0145d2dce3706b8e00de79a4cdd&longUrl='
+set @urlProduto = URL_PRODUTO
+
+set @dt_now = Format(Now(),"MM/dd/yyyy")
+set @data_primeiro = Format(DT_PRIMEIRO_LEMBRETE,"MM/dd/yyyy")
+set @data_segundo = Format(DT_SEGUNDO_LEMBRETE,"MM/dd/yyyy")
+set @data_resgate = Format(DATA_RESGATE,"MM/dd/yyyy")
+set @utm1 = '?utm_source=crm_reguas%26utm_medium=sms%26utm_campaign=DR_REL_CRONICOS%26utm_content=DR_REL_CRONICOS_LEMBRETE1'
+set @utm2 = '?utm_source=crm_reguas%26utm_medium=sms%26utm_campaign=DR_REL_CRONICOS%26utm_content=DR_REL_CRONICOS_LEMBRETE2'
+set @utm3 = '?utm_source=crm_reguas%26utm_medium=sms%26utm_campaign=DR_REL_CRONICOS%26utm_content=DR_REL_CRONICOS_RESGATE'
+
+
+IF (@data_primeiro == @dt_now) then 
+    set @url_encurtada = Lookup(@de, 'URL_ENCURTADA_UTM1', 'CD_PRODUTO', @cd_produto)
+    IF NOT Empty(@url_encurtada) THEN 
+        set @url = @url_encurtada
+    ELSE 
+        set @urlUtm = Concat(@urlProduto, @utm1)
+        set @url = HTTPGet(Concat(@bitlyUrl,@urlUtm,"&format=txt"))
+        set @retorno = UpsertData(@de,1,'CD_PRODUTO',@cd_produto,'URL_ENCURTADA_UTM1',@url, 'FLAG',1)
+    ENDIF
+ELSEIF (@data_segundo == @dt_now) then 
+    set @url_encurtada = Lookup(@de, 'URL_ENCURTADA_UTM2', 'CD_PRODUTO', @cd_produto)
+    IF NOT Empty(@url_encurtada) THEN 
+        set @url = @url_encurtada
+    ELSE 
+        set @urlUtm = Concat(@urlProduto, @utm2)
+        set @url = HTTPGet(Concat(@bitlyUrl,@urlUtm,"&format=txt"))
+        set @retorno = UpsertData(@de,1,'CD_PRODUTO',@cd_produto,'URL_ENCURTADA_UTM2',@url,'FLAG',2)
+    ENDIF
+ELSEIF (@data_resgate == @dt_now) then 
+    set @url_encurtada = Lookup(@de, 'URL_ENCURTADA_UTM3', 'CD_PRODUTO', @cd_produto)
+    IF NOT Empty(@url_encurtada) THEN 
+        set @url = @url_encurtada
+    ELSE 
+        set @urlUtm = Concat(@urlProduto, @utm3)
+        set @url = HTTPGet(Concat(@bitlyUrl,@urlUtm,"&format=txt"))
+        set @retorno = UpsertData(@de,1,'CD_PRODUTO',@cd_produto,'URL_ENCURTADA_UTM3',@url,'FLAG',3)
+    ENDIF
+ENDIF
+
+]%%

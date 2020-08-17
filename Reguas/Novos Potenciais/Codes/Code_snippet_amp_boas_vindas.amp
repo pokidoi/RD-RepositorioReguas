@@ -1,0 +1,23 @@
+%%[ 
+    var @DT_INICIO, @DT_FIM, @EMAIL, @VALOR_NOTA, @URL_SITE, @NOME
+    set @DT_INICIO = Now()
+    set @DT_FIM = DateAdd(Now(), 10, "D")
+    set @EMAIL = emailaddr
+    set @VALOR_NOTA = Lookup('DE_ALL_NOVOS_POTENCIAIS_RAIA', 'VALOR_TOTAL_NF', 'EMAIL', @EMAIL)
+    set @URL_SITE = 'https://www.drogaraia.com.br/'
+    set @NOME = Propercase(Trim(NOME))
+    IF @VALOR_NOTA >= 50.00 AND @VALOR_NOTA < 100.00 THEN
+        set @URL = Concat(@URL_SITE, '?utm_source=crm_reguas&utm_medium=email&utm_campaign=DR_ENG_NOVOSPOTENCIAIS&utm_content=DR_ENG_NOVOSPOTENCIAIS_BOASVINDAS_BONUS5')
+    ELSEIF @VALOR_NOTA >= 100.00 AND @VALOR_NOTA < 150.00 THEN
+        set @URL = Concat(@URL_SITE, '?utm_source=crm_reguas&utm_medium=email&utm_campaign=DR_ENG_NOVOSPOTENCIAIS&utm_content=DR_ENG_NOVOSPOTENCIAIS_BOASVINDAS_BONUS10')
+    ELSEIF @VALOR_NOTA >= 150.00 AND @VALOR_NOTA < 200.00 THEN
+        set @URL = Concat(@URL_SITE, '?utm_source=crm_reguas&utm_medium=email&utm_campaign=DR_ENG_NOVOSPOTENCIAIS&utm_content=DR_ENG_NOVOSPOTENCIAIS_BOASVINDAS_BONUS15')
+    ELSEIF @VALOR_NOTA >= 200.00 THEN
+        set @URL = Concat(@URL_SITE, '?utm_source=crm_reguas&utm_medium=email&utm_campaign=DR_ENG_NOVOSPOTENCIAIS&utm_content=DR_ENG_NOVOSPOTENCIAIS_BOASVINDAS_BONUS20')
+    ELSE
+        set @URL = Concat(@URL_SITE, '?utm_source=crm_reguas&utm_medium=email&utm_campaign=DR_ENG_NOVOSPOTENCIAIS&utm_content=DR_ENG_NOVOSPOTENCIAIS_BOASVINDAS')
+    ENDIF
+]%%
+
+
+apiservices.krxd.net/click_tracker/track?kxconfid=uv9vgbzin&kxadvertiserid=%%memberid%%&kxcampaignid=%%=URLEncode(emailname_)=%%&kxbrand=DrogaRaia&clk=%%=v(@URL)=%%

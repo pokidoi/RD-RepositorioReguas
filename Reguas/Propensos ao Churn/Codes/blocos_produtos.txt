@@ -1,0 +1,66 @@
+           
+<div align="center">
+    <a href="%%=v(@url_produto1)=%%" target="_blank" style="font-family:sans-serif; text-decoration:none;">
+        <img src="%%=v(@img_produto1)=%%" style="display:block;border:none; align:center;" alt="Produto 1">
+    </a>
+    <div>
+        %%=v(@desc_produto1)=%%
+    </div>
+    <div>
+        %%=v(@nr_promocional1)=%%
+    </div>
+</div>
+
+===============================================================
+
+                      
+<div align="center">
+<a href="%%=v(@url_produto2)=%%" target="_blank" style="font-family:sans-serif; text-decoration:none;">
+                                                                                <img src="%%=v(@img_produto2)=%%" style="display:block;border:none; align:center;" alt="Produto 2">
+                                                                            </a>
+      <div>
+        %%=v(@desc_produto2)=%%
+    </div>
+      <div>
+        %%=v(@nr_promocional2)=%%
+    </div>
+</div>
+
+
+===============================================================
+
+
+                          
+<div align="center">
+  <a href="%%=v(@url_produto3)=%%" target="_blank" style="font-family:sans-serif; text-decoration:none;">
+        <img src="%%=v(@img_produto3)=%%" style="display:block;border:none; align:center;" alt="Produto 3">
+    </a>
+      <div>
+        %%=v(@desc_produto3)=%%
+    </div>
+          <div>
+        %%=v(@nr_promocional3)=%%
+    </div>
+</div>
+
+===============================================================
+
+
+               
+<div align="center">
+  <a href="%%=v(@url_produto4)=%%" target="_blank" style="font-family:sans-serif; text-decoration:none;">
+                                                                                <img src="%%=v(@img_produto4)=%%" style="display:block;border:none; align:center;" alt="Produto 4">
+                                                                            </a>
+      <div>
+        %%=v(@desc_produto4)=%%
+    </div>
+              <div>
+        %%=v(@nr_promocional4)=%%
+    </div>
+</div>
+
+
+
+1495 -  compre e retire
+
+1496 - baixe o app

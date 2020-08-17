@@ -1,0 +1,320 @@
+
+%%[
+set @rowsGMAIL1 = LookupOrderedRows('DE_REPORT_RAIA', 0, 'DATA_WARM desc', 'DOMINIO', 'GMAIL', 'IPAddress', '13.111.157.208')
+set @rowCountGMAIL1 = RowCount(@rowsGMAIL1)
+set @rowsGMAIL2 = LookupOrderedRows('DE_REPORT_RAIA', 0, 'DATA_WARM desc', 'DOMINIO', 'GMAIL', 'IPAddress', '13.111.157.209')
+set @rowCountGMAIL2 = RowCount(@rowsGMAIL2)
+
+set @rowsMICROSOFT1 = LookupOrderedRows('DE_REPORT_RAIA', 0, 'DATA_WARM desc', 'DOMINIO', 'MICROSOFT', 'IPAddress', '13.111.157.208')
+set @rowCountMICROSOFT1 = RowCount(@rowsMICROSOFT1)
+set @rowsMICROSOFT2 = LookupOrderedRows('DE_REPORT_RAIA', 0, 'DATA_WARM desc', 'DOMINIO', 'MICROSOFT', 'IPAddress', '13.111.157.209')
+set @rowCountMICROSOFT2 = RowCount(@rowsMICROSOFT2)
+
+set @rowsYAHOO1 = LookupOrderedRows('DE_REPORT_RAIA', 0, 'DATA_WARM desc', 'DOMINIO', 'YAHOO', 'IPAddress', '13.111.157.208')
+set @rowCountYAHOO1 = RowCount(@rowsYAHOO1)
+set @rowsYAHOO2 = LookupOrderedRows('DE_REPORT_RAIA', 0, 'DATA_WARM desc', 'DOMINIO', 'YAHOO', 'IPAddress', '13.111.157.209')
+set @rowCountYAHOO2 = RowCount(@rowsYAHOO2)
+
+set @rowsOUTROS1 = LookupOrderedRows('DE_REPORT_RAIA', 0, 'DATA_WARM desc', 'DOMINIO', 'OUTROS', 'IPAddress', '13.111.157.208')
+set @rowCountOUTROS1 = RowCount(@rowsOUTROS1)
+set @rowsOUTROS2 = LookupOrderedRows('DE_REPORT_RAIA', 0, 'DATA_WARM desc', 'DOMINIO', 'OUTROS', 'IPAddress', '13.111.157.209')
+set @rowCountOUTROS2 = RowCount(@rowsOUTROS2)
+]%%
+<html>
+   <meta charset="utf-8"/>
+   <head>
+      <title>Relatório - Acompanhamento de bounces do WarmUp</title>
+      <link rel="icon" href="https://www.amedigital.com/favicon.ico" type="image/x-icon">
+   </head>
+   <body bgcolor="#FFFFFF" leftmargin="4" rightmargin="4" topmargin="4" bottommargin="4"  >
+      <style>
+         hr {
+         border: 0;
+         border-top: 1px solid #e5e5e5;
+         margin: 2px 0;
+         width: 100%;
+         }
+      </style>
+      <table border="0" cellpadding="6" cellspacing="1" style="font-family: verdana; font-size: 10px;" align="center" bgcolor="#000000" width="100%">
+         <tr>
+            <td colspan="14" bgcolor="#FFFFFF">
+               <table width="100%" border="0">
+                  <tr>
+                     <td align="left" width="150">
+                        <img src="http://image.e.rd.com.br/lib/fe3311717164047d741d78/m/1/16ed7271-580e-4d4a-bc1a-4c2f386343d3.jpg" alt="RD" style="display: block;">
+                     </td>
+                     <td style="font-size: 14px;" align="left">
+                        &nbsp;&nbsp;&nbsp;<b>Relatório - Acompanhamento de bounces do WarmUp </b>
+                     </td>
+                     <td align="right">
+                        <a href="%%view_email_url%%" style="font-family: verdana; font-size: 12px;">Ver online</a>
+                     </td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+      </table>
+      <br>
+      <table border="0" cellpadding="6" cellspacing="1" style="font-family: verdana; font-size: 10px;" align="center" bgcolor="#000000" width="100%">
+         <tr>
+            <td colspan="14" bgcolor="#FFFFFF">
+               <table width="100%" border="0">
+                  <tr>
+                     <td style="font-size: 14px;" align="left">
+                        &nbsp;&nbsp;&nbsp;<b>GMAIL IP1 - 13.111.157.208</b>
+                     </td>
+                     <td align="right">
+                     </td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+         <tr>
+            <td bgcolor="#e5e5e5" align="center" colspan="2" width="25%" nowrap="nowrap">&nbsp;Data&nbsp;</td>
+            <td bgcolor="#e5e5e5" align="center"  colspan="2" width="25%">Enviados</td>
+            <td bgcolor="#e5e5e5" align="center"  colspan="2" width="25%">Bounces</td>
+            <td bgcolor="#e5e5e5" align="center" colspan="2" width="25%">Porcentagem de bounces</td>
+         </tr>
+         %%[
+         FOR @i = 1 TO @rowCountGMAIL1 DO
+         set @linha1 = Row(@rowsGMAIL1, @i)
+         set @SENT = Field(@linha1, 'COUNT_SENT')
+         set @BOUNCES = Field(@linha1, 'COUNT_BOUNCES')
+         set @DATA = Field(@linha1, 'DATA_WARM')
+         SET @DATA = Format(@DATA, "MMMM dd, yyyy")
+         SET @PRT_BOUNCES = Multiply(@BOUNCES,100)
+         SET @PRT_BOUNCES = Divide(@PRT_BOUNCES,@SENT)
+         SET @PRT_BOUNCES = Concat(FormatNumber(@PRT_BOUNCES,"N2","pt-BR"), '%')
+         ]%%
+         <tr>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@DATA)=%%</td>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@SENT)=%%</td>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@BOUNCES)=%%</td>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@PRT_BOUNCES)=%%</td>
+         </tr>
+         %%[
+         NEXT @i
+         ]%%
+      </table>
+      <br>
+      <table border="0" cellpadding="6" cellspacing="1" style="font-family: verdana; font-size: 10px;" align="center" bgcolor="#000000" width="100%">
+         <tr>
+            <td colspan="14" bgcolor="#FFFFFF">
+               <table width="100%" border="0">
+                  <tr>
+                     <td style="font-size: 14px;" align="left">
+                        &nbsp;&nbsp;&nbsp;<b>GMAIL IP2 - 13.111.157.209</b>
+                     </td>
+                     <td align="right">
+                     </td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+         <tr>
+            <td bgcolor="#e5e5e5" align="center" colspan="2" width="25%" nowrap="nowrap">&nbsp;Data&nbsp;</td>
+            <td bgcolor="#e5e5e5" align="center"  colspan="2" width="25%">Enviados</td>
+            <td bgcolor="#e5e5e5" align="center"  colspan="2" width="25%">Bounces</td>
+            <td bgcolor="#e5e5e5" align="center" colspan="2" width="25%">Porcentagem de bounces</td>
+         </tr>
+         %%[
+         FOR @i = 1 TO @rowCountGMAIL2 DO
+         set @linha1 = Row(@rowsGMAIL2, @i)
+         set @SENT = Field(@linha1, 'COUNT_SENT')
+         set @BOUNCES = Field(@linha1, 'COUNT_BOUNCES')
+         set @DATA = Field(@linha1, 'DATA_WARM')
+         SET @DATA = Format(@DATA, "MMMM dd, yyyy") 
+         SET @PRT_BOUNCES = Multiply(@BOUNCES,100)
+         SET @PRT_BOUNCES = Divide(@PRT_BOUNCES,@SENT)
+         SET @PRT_BOUNCES = Concat(FormatNumber(@PRT_BOUNCES,"N2","pt-BR"), '%')
+         ]%%
+         <tr>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@DATA)=%%</td>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@SENT)=%%</td>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@BOUNCES)=%%</td>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@PRT_BOUNCES)=%%</td>
+         </tr>
+         %%[NEXT @i]%%
+      </table>
+      <br>
+      <table border="0" cellpadding="6" cellspacing="1" style="font-family: verdana; font-size: 10px;" align="center" bgcolor="#000000" width="100%">
+         <tr>
+            <td colspan="14" bgcolor="#FFFFFF">
+               <table width="100%" border="0">
+                  <tr>
+                     <td style="font-size: 14px;" align="left">
+                        &nbsp;&nbsp;&nbsp;<b>MICROSOFT IP1 - 13.111.157.208</b>
+                     </td>
+                     <td align="right">
+                     </td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+         <tr>
+            <td bgcolor="#e5e5e5" align="center" colspan="2" width="25%" nowrap="nowrap">&nbsp;Data&nbsp;</td>
+            <td bgcolor="#e5e5e5" align="center"  colspan="2" width="25%">Enviados</td>
+            <td bgcolor="#e5e5e5" align="center"  colspan="2" width="25%">Bounces</td>
+            <td bgcolor="#e5e5e5" align="center" colspan="2" width="25%">Porcentagem de bounces</td>
+         </tr>
+         %%[
+         FOR @i = 1 TO @rowCountMICROSOFT1 DO
+         set @linha1 = Row(@rowsMICROSOFT1, @i)
+         set @SENT = Field(@linha1, 'COUNT_SENT')
+         set @BOUNCES = Field(@linha1, 'COUNT_BOUNCES')
+         set @DATA = Field(@linha1, 'DATA_WARM')
+         SET @DATA = Format(@DATA, "MMMM dd, yyyy")
+         SET @PRT_BOUNCES = Multiply(@BOUNCES,100)
+         SET @PRT_BOUNCES = Divide(@PRT_BOUNCES,@SENT)
+         SET @PRT_BOUNCES = Concat(FormatNumber(@PRT_BOUNCES,"N2","pt-BR"), '%')
+         ]%%
+         <tr>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@DATA)=%%</td>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@SENT)=%%</td>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@BOUNCES)=%%</td>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@PRT_BOUNCES)=%%</td>
+         </tr>
+         %%[
+         NEXT @i
+         ]%%
+      </table>
+      <br>
+      <table border="0" cellpadding="6" cellspacing="1" style="font-family: verdana; font-size: 10px;" align="center" bgcolor="#000000" width="100%">
+         <tr>
+            <td colspan="14" bgcolor="#FFFFFF">
+               <table width="100%" border="0">
+                  <tr>
+                     <td style="font-size: 14px;" align="left">
+                        &nbsp;&nbsp;&nbsp;<b>MICROSOFT IP2 - 13.111.157.209</b>
+                     </td>
+                     <td align="right">
+                     </td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+         <tr>
+            <td bgcolor="#e5e5e5" align="center" colspan="2" width="25%" nowrap="nowrap">&nbsp;Data&nbsp;</td>
+            <td bgcolor="#e5e5e5" align="center"  colspan="2" width="25%">Enviados</td>
+            <td bgcolor="#e5e5e5" align="center"  colspan="2" width="25%">Bounces</td>
+            <td bgcolor="#e5e5e5" align="center" colspan="2" width="25%">Porcentagem de bounces</td>
+         </tr>
+         %%[
+         FOR @i = 1 TO @rowCountMICROSOFT2 DO
+         set @linha1 = Row(@rowsMICROSOFT2, @i)
+         set @SENT = Field(@linha1, 'COUNT_SENT')
+         set @BOUNCES = Field(@linha1, 'COUNT_BOUNCES')
+         set @DATA = Field(@linha1, 'DATA_WARM')
+         SET @DATA = Format(@DATA, "MMMM dd, yyyy")
+         SET @PRT_BOUNCES = Multiply(@BOUNCES,100)
+         SET @PRT_BOUNCES = Divide(@PRT_BOUNCES,@SENT)
+         SET @PRT_BOUNCES = Concat(FormatNumber(@PRT_BOUNCES,"N2","pt-BR"), '%')
+         ]%%
+         <tr>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@DATA)=%%</td>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@SENT)=%%</td>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@BOUNCES)=%%</td>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@PRT_BOUNCES)=%%</td>
+         </tr>
+         %%[
+         NEXT @i
+         ]%%
+      </table>
+      <br>
+      <br>
+      <table border="0" cellpadding="6" cellspacing="1" style="font-family: verdana; font-size: 10px;" align="center" bgcolor="#000000" width="100%">
+         <tr>
+            <td colspan="14" bgcolor="#FFFFFF">
+               <table width="100%" border="0">
+                  <tr>
+                     <td style="font-size: 14px;" align="left">
+                        &nbsp;&nbsp;&nbsp;<b>YAHOO IP1 - 13.111.157.208</b>
+                     </td>
+                     <td align="right">
+                     </td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+         <tr>
+            <td bgcolor="#e5e5e5" align="center" colspan="2" width="25%" nowrap="nowrap">&nbsp;Data&nbsp;</td>
+            <td bgcolor="#e5e5e5" align="center"  colspan="2" width="25%">Enviados</td>
+            <td bgcolor="#e5e5e5" align="center"  colspan="2" width="25%">Bounces</td>
+            <td bgcolor="#e5e5e5" align="center" colspan="2" width="25%">Porcentagem de bounces</td>
+         </tr>
+         %%[
+         FOR @i = 1 TO @rowCountYAHOO1 DO
+         set @linha1 = Row(@rowsYAHOO1, @i)
+         set @SENT = Field(@linha1, 'COUNT_SENT')
+         set @BOUNCES = Field(@linha1, 'COUNT_BOUNCES')
+         set @DATA = Field(@linha1, 'DATA_WARM')
+         SET @DATA = Format(@DATA, "MMMM dd, yyyy")         
+         SET @PRT_BOUNCES = Multiply(@BOUNCES,100)
+         SET @PRT_BOUNCES = Divide(@PRT_BOUNCES,@SENT)
+         SET @PRT_BOUNCES = Concat(FormatNumber(@PRT_BOUNCES,"N2","pt-BR"), '%')
+         ]%%
+         <tr>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@DATA)=%%</td>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@SENT)=%%</td>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@BOUNCES)=%%</td>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@PRT_BOUNCES)=%%</td>
+         </tr>
+         %%[
+         NEXT @i
+         ]%%
+      </table>
+      <br>
+      <table border="0" cellpadding="6" cellspacing="1" style="font-family: verdana; font-size: 10px;" align="center" bgcolor="#000000" width="100%">
+         <tr>
+            <td colspan="14" bgcolor="#FFFFFF">
+               <table width="100%" border="0">
+                  <tr>
+                     <td style="font-size: 14px;" align="left">
+                        &nbsp;&nbsp;&nbsp;<b>YAHOO IP2 - 13.111.157.209 </b>
+                     </td>
+                     <td align="right">
+                     </td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+         <tr>
+            <td bgcolor="#e5e5e5" align="center" colspan="2" width="25%" nowrap="nowrap">&nbsp;Data&nbsp;</td>
+            <td bgcolor="#e5e5e5" align="center"  colspan="2" width="25%">Enviados</td>
+            <td bgcolor="#e5e5e5" align="center"  colspan="2" width="25%">Bounces</td>
+            <td bgcolor="#e5e5e5" align="center" colspan="2" width="25%">Porcentagem de bounces</td>
+         </tr>
+         %%[
+         FOR @i = 1 TO @rowCountYAHOO2 DO
+         set @linha1 = Row(@rowsYAHOO2, @i)
+         set @SENT = Field(@linha1, 'COUNT_SENT')
+         set @BOUNCES = Field(@linha1, 'COUNT_BOUNCES')
+         set @DATA = Field(@linha1, 'DATA_WARM')
+         SET @DATA = Format(@DATA, "MMMM dd, yyyy")
+         SET @PRT_BOUNCES = Multiply(@BOUNCES,100)
+         SET @PRT_BOUNCES = Divide(@PRT_BOUNCES,@SENT)
+         SET @PRT_BOUNCES = Concat(FormatNumber(@PRT_BOUNCES,"N2","pt-BR"), '%')
+         ]%%
+         <tr>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@DATA)=%%</td>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@SENT)=%%</td>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@BOUNCES)=%%</td>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="25%">%%=V(@PRT_BOUNCES)=%%</td>
+         </tr>
+         %%[
+         NEXT @i
+         ]%%
+      </table>
+      <br>
+      <div  align="center" style="font-family: verdana; font-size: 10px;">
+         <br>
+      </div>
+      %%[ if 0 == 1 then ]%%
+      %%Member_Busname%% %%Member_Addr%% 
+      %%Member_City%% %%Member_State%% %%Member_PostalCode%% 
+      %%Member_Country%%
+      <a href="%%profile_center_url%%" alias="Update Profile">Update Profile</a>
+      %%[ endif ]%%
+      <custom name="opencounter" type="tracking"/>
+   </body>
+</html>

@@ -1,0 +1,6 @@
+SELECT 
+    GOLDEN_ID
+    ,ID_CLIENTE
+    ,'' AS FLAG_GC
+FROM 
+WHERE FLAG_GC = 1

@@ -1,0 +1,12 @@
+%%[ 
+    set @Email = Email   
+    set @Nome = IsNullDefault(Lookup('DE_WARMUP_DROGASIL_SHABIT', 'NOME_COMPLETO', 'EMAIL', @Email), 'Olá!')
+
+    IF not empty(@Nome) THEN
+        IF IndexOf(@Nome,' ') > 0 THEN
+            Set @Nome =  Field(Row(BuildRowSetFromString(@Nome, ' '), 1), 1)
+            Set @Nome = Concat('Olá, ', ProperCase(@Nome))
+        ENDIF    
+    ENDIF
+]%%
+

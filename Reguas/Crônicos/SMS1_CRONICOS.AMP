@@ -1,0 +1,14 @@
+%%[ 
+set @tel = TEL_CELULAR
+SET @encodedtel = Base64Encode(@tel)
+set @url = Concat('http://cloud.e.rd.com.br/CRN?e=', @encodedtel)
+]%% 
+
+----------------------
+
+%%=ContentBlockbyId("290")=%%
+Droga Raia: %%NOME%% o %%DESC_PRODUTO%% deve estar acabando, mantenha o tratamento. Saiba mais %%=v(@url)=%% (p/ sair envie PARE)
+
+
+
+

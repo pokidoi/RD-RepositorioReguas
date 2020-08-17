@@ -1,0 +1,40 @@
+%%=ContentBlockbyId("1559")=%%
+
+%%[
+    set @DT_FIM_KL = FormatDate(DateAdd(Now(), '24','D'),"DD/MM/YYYY","","pt-BR")
+    set @DT_FIM_SD = FormatDate(DateAdd(Now(), '30','D'),"DD/MM/YYYY","","pt-BR")
+    set @DT_FIM_OF = FormatDate(DateAdd(Now(), '25','D'),"DD/MM/YYYY","","pt-BR")
+
+    VAR @produtos, @index, @i, @CD_PRODUTO1, @CD_PRODUTO2, @CD_PRODUTO3, @CD_PRODUTO4, @index 
+    SET @produtos = Lookup('DE_PRE_SEGMENTACAO_PROPENSOS_CHURN_RAIA', 'CD_PRODUTO', 'ID_CLIENTE', ID_CLIENTE) 
+    SET @vetor_produtos = @produtos
+
+    FOR @i = 1 TO 4 DO 
+        SET @index = IndexOf(@produtos, ',') 
+        IF @i == 1 THEN  
+            SET @CD_PRODUTO1 = Substring(@produtos, 0, Subtract(@index, 1))
+            SET @produtos = Substring(@produtos, Add(@index, 1), Length(@produtos))
+        ELSEIF @i == 2 THEN  
+            SET @CD_PRODUTO2 = Substring(@produtos, 0, Subtract(@index, 1))
+            SET @produtos = Substring(@produtos, Add(@index, 1), Length(@produtos))
+        ELSEIF @i == 3 THEN 
+            IF @index > 0 THEN
+                SET @CD_PRODUTO3 = Substring(@produtos, 0, Subtract(@index, 1))
+                SET @produtos = Substring(@produtos, Add(@index, 1), Length(@produtos))
+            ELSE
+                SET @CD_PRODUTO3 = @produtos
+                SET @produtos = ""
+            ENDIF
+        ELSEIF @i == 4 THEN 
+            IF Length(@produtos) > 0 THEN
+                SET @CD_PRODUTO4 = @produtos
+                SET @produtos = ""
+            ELSE
+                SET @CD_PRODUTO4 = 0
+            ENDIF
+        ENDIF     
+    NEXT @i
+
+    set @desc_produto1 = Lookup('ENT.DE_CAD_PRODUTO', 'DESC_PRODUTO', 'CD_PRODUTO', @CD_PRODUTO1)
+    set @nr_promocional1 = Lookup('DE_DH_TARGETING_PROPENSOS_CHURN_RAIA', 'NR_PROMOCIONAL', 'CD_PRODUTO', @CD_PRODUTO1)
+]%%

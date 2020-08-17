@@ -1,0 +1,43 @@
+%%[   
+    var @emailEncoded, @email, @id_cliente, @flag, @DE
+    SET @emailEncoded = QUERYPARAMETER('e')
+    SET @flag = ''
+    IF EMPTY (@emailEncoded) THEN
+        SET @flag = 'falha'
+    ELSE
+        SET @email = Base64Decode(@emailEncoded,'UTF-8')
+        SET @id_cliente = Lookup('DE_ALL_PROPENSOS_CHURN_RAIA', 'ID_CLIENTE', 'EMAIL', @email)
+        SET @DE = ''
+        IF not empty(RequestParameter('post')) THEN
+            SET @ = RequestParameter('')
+            SET @ = RequestParameter('')
+            SET @ = RequestParameter('')
+            SET @ = RequestParameter('')
+            SET @ = RequestParameter('')
+            
+            set @retorno = InsertData(@DE,
+            'ID_CLIENTE', @id_cliente, 
+            '',@,
+            '',@,
+            '',@,
+            '',@,
+            '',@
+        )
+        
+            IF @retorno > 0 THEN
+                SET @flag = 'sucesso'
+            ELSE 
+                SET @flag = 'falha'
+            ENDIF
+        ENDIF
+    ENDIF
+]%%
+
+
+%%[IF @flag == 'falha' THEN]%%
+
+%%[ELSEIF @flag == 'sucesso' THEN]%%
+
+%%[ELSE]%%
+
+%%[ENDIF]%%

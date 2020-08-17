@@ -1,0 +1,82 @@
+
+%%[
+set @rows = LookupOrderedRows('ent.DE_LOG_PRICING', 0, 'DATA_PROCESSAMENTO desc', 'STATUS', 'ERRO')
+set @rowCount = RowCount(@rows)
+
+]%%
+<html>
+   <meta charset="utf-8"/>
+   <head>
+      <title>Relatório - Acompanhamento de bounces do WarmUp</title>
+      <link rel="icon" href="https://www.amedigital.com/favicon.ico" type="image/x-icon">
+   </head>
+   <body bgcolor="#FFFFFF" leftmargin="4" rightmargin="4" topmargin="4" bottommargin="4"  >
+      <style>
+         hr {
+         border: 0;
+         border-top: 1px solid #e5e5e5;
+         margin: 2px 0;
+         width: 100%;
+         }
+      </style>
+      <table border="0" cellpadding="6" cellspacing="1" style="font-family: verdana; font-size: 10px;" align="center" bgcolor="#000000" width="100%">
+         <tr>
+            <td colspan="14" bgcolor="#FFFFFF">
+               <table width="100%" border="0">
+                  <tr>
+                     <td align="left" width="150">
+                        <img src="http://image.e.rd.com.br/lib/fe3311717164047d741d78/m/1/16ed7271-580e-4d4a-bc1a-4c2f386343d3.jpg" alt="RD" style="display: block;">
+                     </td>
+                     <td style="font-size: 14px;" align="left">
+                        &nbsp;&nbsp;&nbsp;<b>Relatório - Acompanhamento de log do pricing </b>
+                     </td>
+                     <td align="right">
+                        <a href="%%view_email_url%%" style="font-family: verdana; font-size: 12px;">Ver online</a>
+                     </td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+      </table>
+      <br>
+      <table border="0" cellpadding="6" cellspacing="1" style="font-family: verdana; font-size: 10px;" align="center" bgcolor="#000000" width="100%">
+         <tr>
+            <td colspan="14" bgcolor="#FFFFFF">
+               <table width="100%" border="0">
+                  <tr>
+                     <td style="font-size: 14px;" align="left">
+                        &nbsp;&nbsp;&nbsp;<b>Log de erros</b>
+                     </td>
+                     <td align="right">
+                     </td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+         <tr>
+            <td bgcolor="#e5e5e5" align="center" colspan="2" width="50%" nowrap="nowrap">&nbsp;Data&nbsp;</td>
+            <td bgcolor="#e5e5e5" align="center"  colspan="2" width="50%">Status</td>
+         </tr>
+         %%[
+         FOR @i = 1 TO @rowCount DO
+         set @linha1 = Row(@rows, @i)
+         set @STATUS = Field(@linha1, 'STATUS')
+         set @DATA = Field(@linha1, 'DATA_PROCESSAMENTO')
+         ]%%
+         <tr>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="50%">%%=V(@DATA)=%%</td>
+            <td bgcolor="#FFFFFF" align="center" colspan="2" width="50%">%%=V(@STATUS)=%%</td>
+         </tr>
+         %%[
+         NEXT @i
+         ]%%
+      </table>
+      %%[ if 0 == 1 then ]%%
+      %%Member_Busname%% %%Member_Addr%% 
+      %%Member_City%% %%Member_State%% %%Member_PostalCode%% 
+      %%Member_Country%%
+      <a href="%%profile_center_url%%" alias="Update Profile">Update Profile</a>
+      %%[ endif ]%%
+      <custom name="opencounter" type="tracking"/>
+   </body>
+</html>

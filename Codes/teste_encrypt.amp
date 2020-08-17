@@ -1,0 +1,12 @@
+%%[ 
+ set @Email = EMAIL
+ set @Senha = SENHA
+ set @Senha_encriptada = EncryptSymmetric(@Senha, 'AES', @null, 'password', @null, '00000000000000000000000000000000', @null, '00000000000000000000000000000000')
+ set @Senha_decriptada = DecryptSymmetric(@Senha_encriptada, 'AES', @null, 'password', @null, '00000000000000000000000000000000', @null, '00000000000000000000000000000000')
+]%%
+
+
+ set @Senha_decriptada = DecryptSymmetric(Base64Decode(@Senha_encriptada), 'AES;padding=zeros', @null, 'password', @null, '000000', @null, '00000000')
+
+ 
+ set @Senha_decriptada = DecryptSymmetric('IwLkNzAS6xk=', 'AES;mode=ecb', @null, 'password', @null, @null, @null, @null)
